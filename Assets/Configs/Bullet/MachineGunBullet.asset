@@ -20,4 +20,4 @@ MonoBehaviour:
   bulletBaseCD: 0.2
   destroyOnContact: 1
   bulletMultiplier: 2
-  bulletPrefab: {fileID: 1771311856625642708, guid: f6b090be806a7f148bdca82f0ed546c3, type: 3}
+  bulletPrefab: {fileID: 1771311856625642708, guid: 166ed8a7d4450d047a112a412da99864, type: 3}
