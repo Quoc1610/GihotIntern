@@ -1,35 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public class ShootNearest : MonoBehaviour
 {
     public GunConfig gunConfig;
-    public int currentGunIndex = 0;
+    public GunType gunType;
+    public Player player;
     private float searchRadius = 0f;
     public int maxColliders = 10;
     private ITarget currentTarget;
+    public int currentGunId;
+
+    private void Start()
+    {
+       // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
+        //gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
+        gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
+        //Assets/Resources/Configs/Gun/GunConfig.asset
+        gunType = gunConfig.lsGunType[2];
+    }
 
     private void Update()
     {
-        // Debug logging to check the status of gunConfig and lsGunType
         if (gunConfig == null)
         {
             Debug.LogError("gunConfig is null!");
         }
         else
         {
-            Debug.Log("gunConfig is not null.");
-            Debug.Log("lsGunType count: " + gunConfig.lsGunType.Count);
-            if (gunConfig.lsGunType.Count <= currentGunIndex)
-            {
-                Debug.LogError("currentGunIndex is out of range!");
-            }
-            else
-            {
-                Debug.Log("currentGunIndex is within range.");
-                searchRadius = gunConfig.lsGunType[currentGunIndex].FireRange;
-                Debug.Log("searchRadius set to: " + searchRadius);
-            }
+
+            //searchRadius = gunConfig.FireRange;
+            Debug.Log("searchRadius set to: " + searchRadius);
         }
 
         FindInRadius();

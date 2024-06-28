@@ -6,6 +6,8 @@ public class Player
     public Transform playerTrans;
     public string name;
     public string id;
+    public int gunId;
+    public GunConfig gunConfig;
 }
 
 public class PlayerManager
@@ -15,8 +17,6 @@ public class PlayerManager
     {
 
     }
-    
-
 
     public void AddPlayer(string name, string id)
     {
