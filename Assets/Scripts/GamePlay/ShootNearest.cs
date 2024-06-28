@@ -13,29 +13,32 @@ public class ShootNearest : MonoBehaviour
     public int currentGunId;
     public GameObject currentGunPrefab;
     public float currentFireRate;
-    private float lastFireTime = 0f;
 
     private void Start()
     {
-        currentGunId = 1;
         // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
         // gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
+        
         gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
+        InitGun();
+        
+    }
+    private void InitGun()
+    {
+        Debug.Log("startGunId: " + currentGunId);
+        //currentGunId = AllManager.Instance().bulletManager.GetGunId(); TODO: wait for server then init currentGunId based on player info
         gunType = gunConfig.lsGunType[currentGunId];
         currentGunPrefab = gunType.gunPrefab;
         GameObject gun = Instantiate(currentGunPrefab, transform.position, Quaternion.identity);
         gun.transform.SetParent(transform);
     }
-
     private void Update()
     {
+        currentGunId = AllManager.Instance().bulletManager.GetGunId();
         gunType = gunConfig.lsGunType[currentGunId];
         searchRadius = gunType.FireRange;
         currentFireRate = gunType.Firerate;
-        // currentGunPrefab = gunType.gunPrefab;
-        // currentGunTransform = currentGunPrefab.transform;
         FindInRadius();
-        // CharacterController.Instance().ShootAtTarget(this.gameObject);
     }
 
     void FindInRadius()

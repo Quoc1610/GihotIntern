@@ -8,7 +8,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private GameObject prefabBullet;
     public Transform gunTransform;
-    public int gunId = 1; //temporary until be able to get the playerID
+    public int gunId = AllManager.Instance().bulletManager.GetGunId(); //temporary until be able to get the playerID
     public static CharacterController _instance { get; private set; }
     public static CharacterController Instance()
     {

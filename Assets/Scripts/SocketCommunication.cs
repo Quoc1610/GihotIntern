@@ -18,6 +18,7 @@ class First_Connect
 {
     public string id;
     public string player_name;
+    public int gun_id;
 }
 
 [System.Serializable]
@@ -31,6 +32,7 @@ class SimplePlayerInfo
 {
     public string player_id;
     public string player_name;
+    public int gun_id;
 }
 
 [System.Serializable]
@@ -106,9 +108,11 @@ public class SocketCommunication
                     //set player id in first connect
                     First_Connect data = JsonUtility.FromJson<First_Connect>(response);
                     Player_ID.MyPlayerID = data.id;
+                    Debug.Log("gunid from server: " + data.gun_id);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
-                        AllManager.Instance().playerManager.AddPlayer(data.player_name, data.id);
+                        AllManager.Instance().playerManager.AddPlayer(data.player_name, data.id, data.gun_id);
+                        AllManager.Instance().bulletManager.SetGunId(data.gun_id);
                     });
                     break;
                 case "rooms":
@@ -122,7 +126,7 @@ public class SocketCommunication
                     Debug.Log(response);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
-                        AllManager.Instance().playerManager.AddPlayer(playerInfo.player_name, playerInfo.player_id);
+                        AllManager.Instance().playerManager.AddPlayer(playerInfo.player_name, playerInfo.player_id, playerInfo.gun_id);
                         UIManager._instance.uiMainMenu.HostChangeLobbyListName(AllManager.Instance().playerManager.dictPlayers);
                         //UIManager._instance.uiMainMenu.JoinCall(0);
                     });
@@ -136,7 +140,7 @@ public class SocketCommunication
                         for (int i = 0; i < playerIn4List.players.Length; i++)
                         {
                             if (playerIn4List.players[i].player_id == Player_ID.MyPlayerID) continue;
-                            AllManager.Instance().playerManager.AddPlayer(playerIn4List.players[i].player_name, playerIn4List.players[i].player_id);
+                            AllManager.Instance().playerManager.AddPlayer(playerIn4List.players[i].player_name, playerIn4List.players[i].player_id, playerIn4List.players[i].gun_id);
                         }
                         UIManager._instance.uiOnlineLobby.OnGuessJoin();
                     });
