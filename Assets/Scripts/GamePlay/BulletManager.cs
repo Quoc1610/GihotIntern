@@ -55,7 +55,6 @@ public class BulletManager
         {
             if (bulletInfoList[i].isNeedDestroy)
             {
-                //GameObject.Destroy(bulletInfoList[i].bulletObj.gameObject);
                 bulletInfoList.RemoveAt(i);
             }
         }
@@ -74,13 +73,7 @@ public class BulletManager
 
     public void SpawnBullet(Vector3 posSpawn, Vector3 target, int gunId)
     {
-      
-
-        
-
         GunType gunType = gunConfig.lsGunType[gunId];
-
-
         // Check if enough time has passed since the last fire time
         if (Time.time - lastFireTime < 1f / gunType.Firerate)
         {

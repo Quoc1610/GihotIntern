@@ -11,29 +11,24 @@ public class ShootNearest : MonoBehaviour
     public int maxColliders = 10;
     private ITarget currentTarget;
     public int currentGunId;
+    public float currentFireRate;
+    private float lastFireTime = 0f;
 
     private void Start()
     {
-       // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
-        //gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
+        currentGunId = 1;
+        // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
+        // gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
         gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
-        //Assets/Resources/Configs/Gun/GunConfig.asset
-        gunType = gunConfig.lsGunType[2];
+        //gunType = gunConfig.lsGunType[currentGunId];
     }
 
     private void Update()
     {
-        if (gunConfig == null)
-        {
-            Debug.LogError("gunConfig is null!");
-        }
-        else
-        {
-
-            //searchRadius = gunConfig.FireRange;
-            Debug.Log("searchRadius set to: " + searchRadius);
-        }
-
+        gunType = gunConfig.lsGunType[currentGunId];
+        searchRadius = gunType.FireRange;
+        currentFireRate = gunType.Firerate;
+        Debug.Log("searchRadius set to: " + searchRadius);
         FindInRadius();
     }
 

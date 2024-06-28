@@ -8,6 +8,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private GameObject prefabBullet;
 
+    public int gunId = 1; //temporary until be able to get the playerID
     public static CharacterController _instance { get; private set; }
     public static CharacterController Instance()
     {
@@ -32,9 +33,8 @@ public class CharacterController : MonoBehaviour
     public void ShootAtTarget(GameObject target)
     {
         Debug.Log("ShootAtTarget");
-        //int gunId = AllManager.Instance().bulletManager.bulletConfig.lsGunType.Count - 1;
-        //Debug.Log("gunId: " + gunId);
-        int gunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
+        //int gunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
+        //int gunId = 1;
         AllManager.Instance().bulletManager.SpawnBullet(transform.position, target.transform.position, gunId);
     }
 }
