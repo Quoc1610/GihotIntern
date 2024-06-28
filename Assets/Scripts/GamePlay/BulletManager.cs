@@ -30,7 +30,7 @@ public class BulletInfo
 public class BulletManager
 {
     public List<BulletInfo> bulletInfoList = new List<BulletInfo>();
-    public GunConfig bulletConfig;
+    public GunConfig gunConfig;
     private float lastFireTime = 0f;
 
     public void MyUpdate()
@@ -74,37 +74,12 @@ public class BulletManager
 
     public void SpawnBullet(Vector3 posSpawn, Vector3 target, int gunId)
     {
-        if (bulletConfig == null)
-        {
-            Debug.LogError("bulletConfig is null!");
-            return;
-        }
+      
 
-        if (bulletConfig.lsGunType == null)
-        {
-            Debug.LogError("bulletConfig.lsGunType is null!");
-            return;
-        }
+        
 
-        if (gunId < 0 || gunId >= bulletConfig.lsGunType.Count)
-        {
-            Debug.LogError($"gunId {gunId} is out of range!");
-            return;
-        }
+        GunType gunType = gunConfig.lsGunType[gunId];
 
-        GunType gunType = bulletConfig.lsGunType[gunId];
-
-        if (gunType == null)
-        {
-            Debug.LogError($"GunType at index {gunId} is null!");
-            return;
-        }
-
-        if (gunType.bulletConfig == null)
-        {
-            Debug.LogError($"bulletConfig for gunType at index {gunId} is null!");
-            return;
-        }
 
         // Check if enough time has passed since the last fire time
         if (Time.time - lastFireTime < 1f / gunType.Firerate)

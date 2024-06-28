@@ -9,7 +9,7 @@ public class AllManager : MonoBehaviour
     public PlayerManager playerManager;
     public CreepManager creepManager;
 
-    public GunConfig bulletConfig;
+    public GunConfig gunConfig;
     [SerializeField] AllCreepConfig allCreepConfig;
 
     public static AllManager Instance()
@@ -26,7 +26,7 @@ public class AllManager : MonoBehaviour
         bulletManager = new BulletManager();
         playerManager = new PlayerManager();
         creepManager = new CreepManager(allCreepConfig);
-        bulletManager.bulletConfig = bulletConfig;
+        bulletManager.gunConfig = gunConfig;
     }
     private void Update()
     {

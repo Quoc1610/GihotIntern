@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BulletConfig : ScriptableObject
 {
-    public string bulletName;
+    public int bulletId;
     public int damage;
     public float speed;
     public int bulletTimeToLive;

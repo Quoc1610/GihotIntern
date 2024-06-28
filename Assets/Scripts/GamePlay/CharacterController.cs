@@ -32,8 +32,9 @@ public class CharacterController : MonoBehaviour
     public void ShootAtTarget(GameObject target)
     {
         Debug.Log("ShootAtTarget");
-        int gunId = AllManager.Instance().bulletManager.bulletConfig.lsGunType.Count - 1;
-        Debug.Log("gunId: " + gunId);
+        //int gunId = AllManager.Instance().bulletManager.bulletConfig.lsGunType.Count - 1;
+        //Debug.Log("gunId: " + gunId);
+        int gunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
         AllManager.Instance().bulletManager.SpawnBullet(transform.position, target.transform.position, gunId);
     }
 }
