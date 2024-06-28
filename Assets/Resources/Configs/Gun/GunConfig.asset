@@ -17,18 +17,18 @@ MonoBehaviour:
     Firerate: 3
     bulletConfig: {fileID: 11400000, guid: 0c2a13277af51b744986753d19c07e03, type: 2}
     FireRange: 10
-    gunPrefab: {fileID: 0}
+    gunPrefab: {fileID: 6774843256803546431, guid: 6a7702ddc03687149a88925f835bffef, type: 3}
     bulletPrefab: {fileID: 1771311856625642708, guid: 9c38de1d56fe9f04882b1113ea4af869, type: 3}
   - numberOfBullet: 1
     Firerate: 10
     bulletConfig: {fileID: 11400000, guid: 364cdc2a4e80e75459d460d2546aafd4, type: 2}
     FireRange: 7
-    gunPrefab: {fileID: 0}
+    gunPrefab: {fileID: 2978130384556725872, guid: d002fe65b45ad914787b39a69e9ee877, type: 3}
     bulletPrefab: {fileID: 1771311856625642708, guid: 166ed8a7d4450d047a112a412da99864, type: 3}
   - numberOfBullet: 3
     Firerate: 2
     bulletConfig: {fileID: 11400000, guid: 934ebed3a7e69174c98e2714e107ecfa, type: 2}
     FireRange: 4
-    gunPrefab: {fileID: 0}
+    gunPrefab: {fileID: 8901172656677072605, guid: ef5eb652d4f626b419f9ebc530cdfd44, type: 3}
     bulletPrefab: {fileID: 1771311856625642708, guid: 5b4f8dad431b64e4c98d077e1781172b, type: 3}
   lightPistolBullet: {fileID: 11400000, guid: 0c2a13277af51b744986753d19c07e03, type: 2}

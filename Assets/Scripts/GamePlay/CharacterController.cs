@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float speed = 1.0f;
     [SerializeField] private CharacterController controller;
     [SerializeField] private GameObject prefabBullet;
-
+    [SerializeField] private Transform gunTransform;
     public int gunId = 1; //temporary until be able to get the playerID
     public static CharacterController _instance { get; private set; }
     public static CharacterController Instance()
@@ -19,6 +19,9 @@ public class CharacterController : MonoBehaviour
         return _instance;
     }
 
+    private void Start(){
+        
+    }
     private void Awake()
     {
         //  SocketCommunication.GetInstance();
@@ -34,7 +37,6 @@ public class CharacterController : MonoBehaviour
     {
         Debug.Log("ShootAtTarget");
         //int gunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
-        //int gunId = 1;
-        AllManager.Instance().bulletManager.SpawnBullet(transform.position, target.transform.position, gunId);
+        AllManager.Instance().bulletManager.SpawnBullet(gunTransform.position, target.transform.position, gunId);
     }
 }

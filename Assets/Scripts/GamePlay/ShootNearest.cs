@@ -11,6 +11,8 @@ public class ShootNearest : MonoBehaviour
     public int maxColliders = 10;
     private ITarget currentTarget;
     public int currentGunId;
+    public GameObject currentGunPrefab;
+    public Transform currentGunTransform;
     public float currentFireRate;
     private float lastFireTime = 0f;
 
@@ -20,7 +22,11 @@ public class ShootNearest : MonoBehaviour
         // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
         // gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
         gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
-        //gunType = gunConfig.lsGunType[currentGunId];
+        gunType = gunConfig.lsGunType[currentGunId];
+        currentGunPrefab = gunType.gunPrefab;
+        currentGunTransform = currentGunPrefab.transform;
+        GameObject gun = Instantiate(currentGunPrefab, transform.position, Quaternion.identity);
+        gun.transform.SetParent(transform);
     }
 
     private void Update()
@@ -28,6 +34,8 @@ public class ShootNearest : MonoBehaviour
         gunType = gunConfig.lsGunType[currentGunId];
         searchRadius = gunType.FireRange;
         currentFireRate = gunType.Firerate;
+        currentGunPrefab = gunType.gunPrefab;
+        currentGunTransform = currentGunPrefab.transform;
         Debug.Log("searchRadius set to: " + searchRadius);
         FindInRadius();
     }
