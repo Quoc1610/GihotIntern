@@ -10,7 +10,7 @@ public class ShootNearest : MonoBehaviour
     private float searchRadius = 0f;
     public int maxColliders = 10;
     private ITarget currentTarget;
-    public int currentGunId;
+    public int currentGunId = AllManager.Instance().bulletManager.GetGunId(); //TODO: coroutine?
     public GameObject currentGunPrefab;
     public float currentFireRate;
 
@@ -18,23 +18,18 @@ public class ShootNearest : MonoBehaviour
     {
         // currentGunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
         // gunConfig = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunConfig.lsGunType[currentGunId];
-        
-        gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
-        InitGun();
-        
-    }
-    private void InitGun()
-    {
         Debug.Log("startGunId: " + currentGunId);
-        //currentGunId = AllManager.Instance().bulletManager.GetGunId(); TODO: wait for server then init currentGunId based on player info
+        gunConfig = Resources.Load<GunConfig>("Configs/Gun/GunConfig");
         gunType = gunConfig.lsGunType[currentGunId];
         currentGunPrefab = gunType.gunPrefab;
         GameObject gun = Instantiate(currentGunPrefab, transform.position, Quaternion.identity);
         gun.transform.SetParent(transform);
     }
+    
     private void Update()
     {
-        currentGunId = AllManager.Instance().bulletManager.GetGunId();
+        // currentGunId = AllManager.Instance().bulletManager.GetGunId();
+        Debug.Log("currentGunId after update in shootnearest: " + currentGunId);
         gunType = gunConfig.lsGunType[currentGunId];
         searchRadius = gunType.FireRange;
         currentFireRate = gunType.Firerate;

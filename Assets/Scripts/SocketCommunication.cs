@@ -108,7 +108,7 @@ public class SocketCommunication
                     //set player id in first connect
                     First_Connect data = JsonUtility.FromJson<First_Connect>(response);
                     Player_ID.MyPlayerID = data.id;
-                    Debug.Log("gunid from server: " + data.gun_id);
+                    Debug.Log("gun_id from server: " + data.gun_id);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
                         AllManager.Instance().playerManager.AddPlayer(data.player_name, data.id, data.gun_id);
