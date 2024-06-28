@@ -20,7 +20,7 @@ MonoBehaviour:
     gunPrefab: {fileID: 6774843256803546431, guid: 6a7702ddc03687149a88925f835bffef, type: 3}
     bulletPrefab: {fileID: 1771311856625642708, guid: 9c38de1d56fe9f04882b1113ea4af869, type: 3}
   - numberOfBullet: 1
-    Firerate: 10
+    Firerate: 10000
     bulletConfig: {fileID: 11400000, guid: 364cdc2a4e80e75459d460d2546aafd4, type: 2}
     FireRange: 7
     gunPrefab: {fileID: 2978130384556725872, guid: d002fe65b45ad914787b39a69e9ee877, type: 3}

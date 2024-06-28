@@ -9,6 +9,7 @@ public class BulletInfo
     private Vector3 direction;
     public int damage;
 
+
     public BulletInfo(Transform obj, Vector3 targetDirection, float bulletSpeed = 5f)
     {
         this.bulletObj = obj;
@@ -32,9 +33,10 @@ public class BulletManager
     public List<BulletInfo> bulletInfoList = new List<BulletInfo>();
     public GunConfig gunConfig;
     private float lastFireTime = 0f;
-
+    public GameObject target;
     public void MyUpdate()
     {
+
         for (int i = 0; i < bulletInfoList.Count; i++)
         {
             bulletInfoList[i].Move();
@@ -47,6 +49,7 @@ public class BulletManager
                 bulletInfoList[i].isNeedDestroy = true;
             }
         }
+        SpawnBullet(CharacterController.Instance().gunTransform.position, 0);
     }
 
     public void LateUpdate()
@@ -71,19 +74,16 @@ public class BulletManager
         }
     }
 
-    public void SpawnBullet(Vector3 posSpawn, Vector3 target, int gunId)
+    public void SpawnBullet(Vector3 posSpawn, int gunId)
     {
         GunType gunType = gunConfig.lsGunType[gunId];
-        // Check if enough time has passed since the last fire time
-        if (Time.time - lastFireTime < 1f / gunType.Firerate)
-        {
-            Debug.Log("Cannot fire yet. Waiting for fire rate cooldown.");
-            return;
-        }
-
-        gunType.bulletConfig.Fire(posSpawn, target, this);
-        lastFireTime = Time.time;
+        gunType.bulletConfig.Fire(posSpawn, this.target.transform.position, this);
 
         Debug.Log($"Spawned Bullet. Total bullets: {bulletInfoList.Count}");
+    }
+    public void SetTarget(GameObject target)
+    {
+        Debug.Log("SetTarget");
+        this.target = target;
     }
 }

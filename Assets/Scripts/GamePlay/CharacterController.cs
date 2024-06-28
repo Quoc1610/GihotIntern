@@ -7,7 +7,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float speed = 1.0f;
     [SerializeField] private CharacterController controller;
     [SerializeField] private GameObject prefabBullet;
-    [SerializeField] private Transform gunTransform;
+    public Transform gunTransform;
     public int gunId = 1; //temporary until be able to get the playerID
     public static CharacterController _instance { get; private set; }
     public static CharacterController Instance()
@@ -20,7 +20,7 @@ public class CharacterController : MonoBehaviour
     }
 
     private void Start(){
-        
+
     }
     private void Awake()
     {
@@ -33,10 +33,11 @@ public class CharacterController : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0, vertical);
         transform.position += direction * speed * Time.deltaTime;
     }
-    public void ShootAtTarget(GameObject target)
+    public void SetTargetShoot(GameObject target)
     {
-        Debug.Log("ShootAtTarget");
+        Debug.Log("SetTargetShoot");
         //int gunId = AllManager.Instance().playerManager.dictPlayers[Player_ID.MyPlayerID].gunId;
-        AllManager.Instance().bulletManager.SpawnBullet(gunTransform.position, target.transform.position, gunId);
+        // AllManager.Instance().bulletManager.SpawnBullet(gunTransform.position, target.transform.position, gunId);
+        AllManager.Instance().bulletManager.SetTarget(target);
     }
 }

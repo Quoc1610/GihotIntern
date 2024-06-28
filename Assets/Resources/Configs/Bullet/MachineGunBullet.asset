@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a448b381d1f8714197bf1e5bbcf1b4f, type: 3}
   m_Name: MachineGunBullet
   m_EditorClassIdentifier: 
-  bulletName: MachineGunBullet
+  bulletId: 0
   damage: 1
-  speed: 6
+  speed: 50
   bulletTimeToLive: 5
   bulletBaseCR: 0.2
   bulletBaseCD: 0.2
