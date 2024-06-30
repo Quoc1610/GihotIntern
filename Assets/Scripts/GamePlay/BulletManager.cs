@@ -9,6 +9,7 @@ public class BulletInfo
     private Vector3 direction;
     public int damage;
 
+
     public BulletInfo(Transform obj, Vector3 targetDirection, float bulletSpeed = 5f)
     {
         this.bulletObj = obj;
@@ -30,11 +31,23 @@ public class BulletInfo
 public class BulletManager
 {
     public List<BulletInfo> bulletInfoList = new List<BulletInfo>();
-    public GunConfig bulletConfig;
+    public GunConfig gunConfig;
+    private float localFireRate;
     private float lastFireTime = 0f;
-
+    private int gunId; //TODO: receive gunID from player
+    public GameObject target;
+    public void SetGunId(int id)
+    {
+        gunId = id;
+        Debug.Log("SetGunId in BulletManager called, newGunId = " + gunId);
+    }
+    public int GetGunId(){
+        Debug.Log("GetGunId in BulletManager called, gunId = " + gunId);
+        return gunId;
+    }
     public void MyUpdate()
     {
+
         for (int i = 0; i < bulletInfoList.Count; i++)
         {
             bulletInfoList[i].Move();
@@ -47,6 +60,13 @@ public class BulletManager
                 bulletInfoList[i].isNeedDestroy = true;
             }
         }
+        GunType gunType = gunConfig.lsGunType[gunId];
+        localFireRate = gunType.Firerate;
+        if (target && Time.time >= lastFireTime + 1f / localFireRate)
+        {
+            SpawnBullet(CharacterController.Instance().gunTransform.position, gunId);
+            lastFireTime = Time.time;
+        }
     }
 
     public void LateUpdate()
@@ -55,7 +75,7 @@ public class BulletManager
         {
             if (bulletInfoList[i].isNeedDestroy)
             {
-                //GameObject.Destroy(bulletInfoList[i].bulletObj.gameObject);
+                GameObject.Destroy(bulletInfoList[i].bulletObj.gameObject);
                 bulletInfoList.RemoveAt(i);
             }
         }
@@ -72,50 +92,16 @@ public class BulletManager
         }
     }
 
-    public void SpawnBullet(Vector3 posSpawn, Vector3 target, int gunId)
+    public void SpawnBullet(Vector3 posSpawn, int gunId)
     {
-        if (bulletConfig == null)
-        {
-            Debug.LogError("bulletConfig is null!");
-            return;
-        }
-
-        if (bulletConfig.lsGunType == null)
-        {
-            Debug.LogError("bulletConfig.lsGunType is null!");
-            return;
-        }
-
-        if (gunId < 0 || gunId >= bulletConfig.lsGunType.Count)
-        {
-            Debug.LogError($"gunId {gunId} is out of range!");
-            return;
-        }
-
-        GunType gunType = bulletConfig.lsGunType[gunId];
-
-        if (gunType == null)
-        {
-            Debug.LogError($"GunType at index {gunId} is null!");
-            return;
-        }
-
-        if (gunType.bulletConfig == null)
-        {
-            Debug.LogError($"bulletConfig for gunType at index {gunId} is null!");
-            return;
-        }
-
-        // Check if enough time has passed since the last fire time
-        if (Time.time - lastFireTime < 1f / gunType.Firerate)
-        {
-            Debug.Log("Cannot fire yet. Waiting for fire rate cooldown.");
-            return;
-        }
-
-        gunType.bulletConfig.Fire(posSpawn, target, this);
-        lastFireTime = Time.time;
-
+        GunType gunType = gunConfig.lsGunType[gunId];
+        gunType.bulletConfig.Fire(posSpawn, target.transform.position, this);
+        
         Debug.Log($"Spawned Bullet. Total bullets: {bulletInfoList.Count}");
+    }
+    public void SetTarget(GameObject target)
+    {
+        Debug.Log("SetTarget");
+        this.target = target;
     }
 }

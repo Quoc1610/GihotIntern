@@ -18,6 +18,7 @@ class First_Connect
 {
     public string id;
     public string player_name;
+    public int gun_id;
 }
 
 [System.Serializable]
@@ -31,6 +32,7 @@ class SimplePlayerInfo
 {
     public string player_id;
     public string player_name;
+    public int gun_id;
 }
 
 [System.Serializable]
@@ -53,6 +55,7 @@ public class CreepSpawnInfo
     public int creepTypeInt;
     [field: SerializeField] public Vector3 spawnPos;
     public float time;
+    public int spawnNum;
 }
 
 public class SocketCommunication
@@ -105,9 +108,11 @@ public class SocketCommunication
                     //set player id in first connect
                     First_Connect data = JsonUtility.FromJson<First_Connect>(response);
                     Player_ID.MyPlayerID = data.id;
+                    Debug.Log("gun_id from server: " + data.gun_id);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
-                        AllManager.Instance().playerManager.AddPlayer(data.player_name, data.id);
+                        AllManager.Instance().playerManager.AddPlayer(data.player_name, data.id, data.gun_id);
+                        AllManager.Instance().bulletManager.SetGunId(data.gun_id);
                     });
                     break;
                 case "rooms":
@@ -121,7 +126,7 @@ public class SocketCommunication
                     Debug.Log(response);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
-                        AllManager.Instance().playerManager.AddPlayer(playerInfo.player_name, playerInfo.player_id);
+                        AllManager.Instance().playerManager.AddPlayer(playerInfo.player_name, playerInfo.player_id, playerInfo.gun_id);
                         UIManager._instance.uiMainMenu.HostChangeLobbyListName(AllManager.Instance().playerManager.dictPlayers);
                         //UIManager._instance.uiMainMenu.JoinCall(0);
                     });
@@ -132,17 +137,24 @@ public class SocketCommunication
                     Debug.Log(response);
                     Dispatcher.EnqueueToMainThread(() =>
                     {
-                        for (int i = 0; i < playerIn4List.players.Length ; i++)
+                        for (int i = 0; i < playerIn4List.players.Length; i++)
                         {
-                            if(playerIn4List.players[i].player_id==Player_ID.MyPlayerID) continue;
-                            AllManager.Instance().playerManager.AddPlayer(playerIn4List.players[i].player_name,playerIn4List.players[i].player_id);
+                            if (playerIn4List.players[i].player_id == Player_ID.MyPlayerID) continue;
+                            AllManager.Instance().playerManager.AddPlayer(playerIn4List.players[i].player_name, playerIn4List.players[i].player_id, playerIn4List.players[i].gun_id);
                         }
                         UIManager._instance.uiOnlineLobby.OnGuessJoin();
                     });
                     break;
                 case "spawn creep":
                     var creepSpawnInfo = JsonUtility.FromJson<CreepSpawnInfo>(response);
-                    AllManager._instance.creepManager.SpawnCreep(creepSpawnInfo.spawnPos, (CreepManager.CreepType)creepSpawnInfo.creepTypeInt, creepSpawnInfo.time);
+                    Dispatcher.EnqueueToMainThread(() =>
+                        {
+                            for (int i = 0; i < creepSpawnInfo.spawnNum; i++)
+                            {
+                                AllManager._instance.creepManager.SpawnCreep(creepSpawnInfo.spawnPos, (CreepManager.CreepType)creepSpawnInfo.creepTypeInt, creepSpawnInfo.time);
+                            }
+                        }
+                    );
                     break;
             }
             Debug.Log(_event.event_name);

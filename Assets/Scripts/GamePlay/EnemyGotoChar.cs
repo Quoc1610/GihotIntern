@@ -27,7 +27,7 @@ public class EnemyGotoChar : MonoBehaviour, ITarget
     public void Target()
     {
         rend.material.color = Color.blue;
-        CharacterController.Instance().ShootAtTarget(this.gameObject);
+        CharacterController.Instance().SetTargetShoot(this.gameObject);
     }
 
     public void UnTarget()
